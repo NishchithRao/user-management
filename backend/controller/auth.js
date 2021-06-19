@@ -7,9 +7,9 @@ exports.signup = (req,res) => {
     user.save((err,user) => {
         if(err) {
             console.log(err);
-            return res.json({error:err});
             user.hashed_password = undefined;
             user.salt = undefined;
+            return res.json({error:err});
         }
         return res.json(user);
     })
@@ -18,7 +18,13 @@ exports.signup = (req,res) => {
 
 exports.signin = (req,res) => {
     const {email,password} = req.body;
-    let user = User.findOne({email},(err,user)=> {
+    console.log(email,password);
+    User.findOne({email},(err,user)=> {
+        if(!user) {
+            return res.json({error:{
+                code: "auth/no-account-found"
+            }});
+        }
         if(err) {
             console.log(err);
             return res.json({error:{
@@ -30,7 +36,8 @@ exports.signin = (req,res) => {
                 code: "auth/invalid-password"
             }});
         }
-        let token = sign({_id:user._id,role:user.role},process.env.SECRET);
+        let token = sign({_id:user._id,role:user.role},process.env.SECRET,{expiresIn:'5h'});
+        console.log(token);
         return res.json({token});
     })
 }
