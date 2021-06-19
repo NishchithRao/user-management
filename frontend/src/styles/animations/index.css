@@ -1,0 +1,5 @@
+@import url('./slideIn.css');
+
+.slide-in {
+    animation: slide-in 0.2s linear;
+}
