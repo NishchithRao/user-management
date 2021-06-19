@@ -51,6 +51,20 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim:true
     },
+    dob: {
+        dd: {
+            type: Number,
+            required: true
+        },
+        mm: {
+            type: Number,
+            required: true
+        },
+        yy: {
+            type: Number,
+            required: true
+        }
+    },
     salt: String,
     hashed_password: {
         type: String,
@@ -75,7 +89,9 @@ userSchema.virtual('password')
     this.salt = uuidv1();
     this.hashed_password = this.hashPassword(plainPassword)
 })
-.get(function() {return this._plainPassword});
+.get(function() {
+    console.log(this._plainPassword);
+    return this._plainPassword});
 
 userSchema.methods = {
     hashPassword: function (plainPassword) {
