@@ -1,0 +1,9 @@
+.border-bottom-1 {
+    border-bottom: 1px solid #999;
+}
+.border-all-1 {
+    border: 1px solid #999;
+}
+.border-all-light-1 {
+    border: 1px solid #eee;
+}

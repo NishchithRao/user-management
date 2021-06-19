@@ -1,0 +1,12 @@
+.d-flex {
+    display: flex;
+}
+.flex-row {
+    flex-direction: row;
+}
+.flex-col {
+    flex-direction: column;
+}
+.d-block {
+    display: block;
+}

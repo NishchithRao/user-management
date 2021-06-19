@@ -1,0 +1,33 @@
+.w-100 {
+    width: 100% !important;
+}
+.w-fit {
+    width: fit-content !important;
+}
+.h-100 {
+    height: 100%;
+}
+.h-fit {
+    height: fit-content;
+}
+.h-100vh {
+    height: 100vh !important;
+}
+.w-90 {
+    width: 90%;
+}
+.w-50 {
+    width: 50%;
+}
+.h-2r {
+    height: 2rem;
+}
+.h-4r {
+    height: 4rem;
+}
+.h-3-2r {
+    height: 3.5rem;
+}
+.h-8r {
+    height: 8rem;
+}

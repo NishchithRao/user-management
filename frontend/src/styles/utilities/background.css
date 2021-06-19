@@ -1,0 +1,9 @@
+.bg-primary {
+    background-color: var(--ion-color-primary,red);
+}
+.bg-transparent {
+    background-color: transparent;
+}
+.bg-white {
+    background-color: #fff;
+}

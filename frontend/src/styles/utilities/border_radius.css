@@ -1,0 +1,17 @@
+.radius-12 {
+    border-radius: 12px;
+    overflow: hidden;
+}
+.radius-50 {
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.radius-24 {
+    border-radius: 24px;
+    overflow: hidden;
+}
+.radius-6 {
+    border-radius: 6px;
+    overflow: hidden;
+}
