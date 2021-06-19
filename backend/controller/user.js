@@ -1,11 +1,11 @@
 const User = require("../model/user");
 
-
 exports.getUser = (req,res) => {
     User.findById(req.params.id,(err,user) => {
         if(err) {
             return res.json({error: err});
         }
+        console.log(user.password);
         return res.json(user);
     });
 }
