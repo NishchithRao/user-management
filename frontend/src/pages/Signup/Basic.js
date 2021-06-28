@@ -7,9 +7,13 @@ import FormHelperText from '@material-ui/core/FormHelperText'
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import { months } from '../../helpers/constants';
-import formStore from '../../store/modules/form';
+import { actions } from '../../store';
+import { useDispatch,useSelector } from 'react-redux';
 
 export const Basic = () => {
+  const {form} = actions;
+  const {firstName,lastName,email,password,address:{line1,state,city,pincode},dob:{dd,mm,yy},gender} = useSelector(state => state.form);
+  const dispatch = useDispatch();
   return (
     <React.Fragment>
       <Grid container spacing={3}>
@@ -21,8 +25,9 @@ export const Basic = () => {
             name="firstName"
             label="First name"
             fullWidth
-            onChange={(ev) => formStore.dispatch({ type: "FIRST_NAME", value: ev.target.value })}
+            onChange={({target:{value}}) => dispatch(form.FIRST_NAME(value))}
             size="small"
+            value={firstName}
             autoComplete="given-name"
           />
         </Grid>
@@ -33,8 +38,9 @@ export const Basic = () => {
             id="lastName"
             name="lastName"
             label="Last name"
-            onChange={({ target }) => formStore.dispatch({ type: "LAST_NAME", value: target.value })}
+            onChange={({target:{value}}) => dispatch(form.LAST_NAME(value))}
             fullWidth
+            value={lastName}
             size="small"
             autoComplete="family-name"
           />
@@ -48,8 +54,8 @@ export const Basic = () => {
             label="Email Address"
             type="email"
             fullWidth
-            onChange={(ev) => formStore.dispatch({ type: "EMAIL", value: ev.target.value })}
-            onInput={(ev) => formStore.dispatch({ type: "EMAIL", value: ev.target.value })}
+            value={email}
+            onChange={({target:{value}}) => dispatch(form.EMAIL(value))}
             size="small"
             autoComplete="email"
           />
@@ -64,7 +70,8 @@ export const Basic = () => {
             fullWidth
             size="small"
             type="password"
-            onChange={({ target }) => formStore.dispatch({ type: "PASSWORD", value: target.value })}
+            value={password}
+            onChange={({target:{value}}) => dispatch(form.PASSWORD(value))}
             autoComplete="password"
           />
         </Grid>
@@ -76,7 +83,8 @@ export const Basic = () => {
             label="Address line 1"
             fullWidth
             size="small"
-            onChange={({ target }) => formStore.dispatch({ type: "ADDRESS_LINE1", value: target.value })}
+            value={line1}
+            onChange={({target:{value}}) => dispatch(form.ADDRESS_LINE1(value))}
             autoComplete="address address-line1"
           />
         </Grid>
@@ -88,7 +96,8 @@ export const Basic = () => {
             name="zip"
             label="Zip / Postal code"
             fullWidth
-            onChange={({ target }) => formStore.dispatch({ type: "ADDRESS_PINCODE", value: target.value })}
+            value={pincode}
+            onChange={({target:{value}}) => dispatch(form.ADDRESS_PINCODE(value))}
             size="small"
             autoComplete="shipping postal-code"
           />
@@ -101,8 +110,9 @@ export const Basic = () => {
             name="city"
             label="City"
             fullWidth
+            value={city}
             size="small"
-            onChange={({ target }) => formStore.dispatch({ type: "ADDRESS_CITY", value: target.value })}
+            onChange={({target:{value}}) => dispatch(form.ADDRESS_CITY(value))}
             autoComplete="shipping address-level2"
           />
         </Grid>
@@ -111,10 +121,11 @@ export const Basic = () => {
             id="state"
             name="state"
             variant="outlined"
-            label="State/Province/Region"
+            label="State"
             autoComplete="shipping address-level3"
             size="small"
-            onChange={({ target }) => formStore.dispatch({ type: "ADDRESS_STATE", value: target.value })}
+            value={state}
+            onChange={({target:{value}}) => dispatch(form.ADDRESS_STATE(value))}
             fullWidth />
         </Grid>
         
@@ -125,7 +136,8 @@ export const Basic = () => {
               labelId="gender-err"
               id="gender"
               name="gender"
-              onChange={({ target }) => formStore.dispatch({ type: "GENDER", value: target.value })}
+              value={gender}
+              onChange={({target:{value}}) => dispatch(form.GENDER(value))}
               autoComplete="gender"
             >
               <MenuItem value="male">
@@ -144,7 +156,8 @@ export const Basic = () => {
               labelId="dob-month-err"
               id="dob-month"
               name="month"
-              onChange={({ target }) => formStore.dispatch({ type: "DOB_MM", value: target.value })}
+              value={mm}
+              onChange={({target:{value}}) => dispatch(form.DOB_MM(value))}
               autoComplete="birthday month"
             >
               <MenuItem value="">
@@ -166,8 +179,9 @@ export const Basic = () => {
             label="Date"
             type="number"
             size="small"
+            value={dd}
             autoComplete="birthday date"
-            onChange={({ target }) => formStore.dispatch({ type: "DOB_DD", value: target.value })}
+            onChange={({target:{value}}) => dispatch(form.DOB_DD(value))}
           />
         </Grid>
         <Grid item xs={4}>
@@ -178,8 +192,9 @@ export const Basic = () => {
             name="year"
             label="Year"
             type="number"
+            value={yy}
             size="small"
-            onChange={({ target }) => formStore.dispatch({ type: "DOB_YY", value: target.value })}
+            onChange={({target:{value}}) => dispatch(form.DOB_YY(value))}
             autoComplete="birthday year"
           />
         </Grid>
