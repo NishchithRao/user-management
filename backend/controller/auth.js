@@ -1,43 +1,72 @@
 const User = require("../model/user");
-const {sign} = require("jsonwebtoken");
+const { sign } = require("jsonwebtoken");
 
 
-exports.signup = (req,res) => {
-    let user = new User(req.body);
-    user.save((err,user) => {
-        if(err) {
-            console.log(err);
-            user.hashed_password = undefined;
-            user.salt = undefined;
-            return res.json({error:err});
+exports.signup = (req, res) => {
+    let {email} = req.body;
+    //Check if user email already exists and send error if true
+    return User.findOne({ email }, (err, user) => {
+        if (user) {
+            return res.json({
+                error: {
+                    code: "auth/account-exists"
+                }
+            });
         }
-        return res.json(user);
-    })
+        else if (err) {
+            console.log(err);
+            return res.json({
+                error: err
+            });
+        }
+        else {
+            //Create new user and send it back
+            let user = new User(req.body);
+            return user.save((err, user) => {
+                if (err) {
+                    console.log(err);
+                    return res.json({ error: err });
+                }
+                user.hashed_password = undefined;
+                user.salt = undefined;
+                return res.json(user);
+            })
+        }
+    });
 }
 
 
-exports.signin = (req,res) => {
-    const {email,password} = req.body;
-    console.log(email,password);
-    User.findOne({email},(err,user)=> {
-        if(!user) {
-            return res.json({error:{
-                code: "auth/no-account-found"
-            }});
+exports.signin = (req, res) => {
+    const { email, password } = req.body;
+    // Find if user exists
+    User.findOne({ email }, (err, user) => {
+
+        //If user doesn't exist or if error occured return error
+        if (!user) {
+            return res.json({
+                error: {
+                    code: "auth/no-account-found"
+                }
+            });
         }
-        if(err) {
+        if (err) {
             console.log(err);
-            return res.json({error:{
-                code: "auth/no-account-found"
-            }});
+            return res.json({
+                error: {
+                    code: "auth/no-account-found"
+                }
+            });
         }
-        if(!(user.checkPassword(password))) {
-            return res.json({error:{
-                code: "auth/invalid-password"
-            }});
+        //Check if entered password is valid
+        if (!(user.checkPassword(password))) {
+            return res.json({
+                error: {
+                    code: "auth/invalid-password"
+                }
+            });
         }
-        let token = sign({_id:user._id,role:user.role},process.env.SECRET,{expiresIn:'5h'});
-        console.log(token);
-        return res.json({token});
+        //Create auth tokens and send it
+        let token = sign({ _id: user._id, role: user.role }, process.env.SECRET, { expiresIn: '5h' });
+        return res.json({ token });
     })
 }
