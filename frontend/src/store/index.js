@@ -10,9 +10,9 @@ const allMiddlewares = applyMiddleware(isLoggedIn,logState,sagaMiddleware);
 
 const enhancer = compose(allMiddlewares,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
-const store = createStore(main.reducers(),allMiddlewares);
+const store = createStore(main.reducers(),enhancer);
 
-export const actions = main.actions;
+export const actions = main.actions();
 
 sagaMiddleware.run(main.saga());
 
