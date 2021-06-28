@@ -7,5 +7,5 @@ For more info check the readme of frontend and backend
 
 `docker-compose up --build`
 
-![Sequence Diagram](/public/img/Sequence_Diagram.jpg)
-![use Case Daigram](/public/img/use_case.jpg)
+![Sequence Diagram](https://i.ibb.co/XsrfqxP/Sequence-Diagram.png)
+![use Case Daigram](https://i.ibb.co/WsgMdHN/use-case.png)
