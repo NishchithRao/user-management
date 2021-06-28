@@ -21,12 +21,6 @@ const AddressSchema = new mongoose.Schema({
         lowercase: true,
         trim:true,
     },
-    country: {
-        type: String,
-        required: true,
-        lowercase: true,
-        trim:true,
-    },
     pincode: {
         type: String,
         required: true,
@@ -57,7 +51,7 @@ const userSchema = new mongoose.Schema({
             required: true
         },
         mm: {
-            type: Number,
+            type: String,
             required: true
         },
         yy: {
