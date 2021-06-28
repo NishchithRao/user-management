@@ -1,11 +1,28 @@
 const initialState = {
     users: [],
     profile: {},
-    anotherUser: {},
+    anotherUser: {
+      firstName: '',
+    lastName: '',
+    password: '',
+    email: '',
+    dob: {
+        dd: '',
+        mm: '',
+        yy: ''
+    },
+    gender: '',
+    address: {
+        line1: '',
+        state: '',
+        city: '',
+        pincode: '',
+    }
+    },
     isLoggedIn: false,
     isLoading: false,
     isSuccess: false,
-    error: "12"
+    error: "",
   }
 
   export default initialState;

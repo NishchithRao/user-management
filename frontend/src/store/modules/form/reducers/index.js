@@ -1,22 +1,6 @@
+import initialState from '../state';
 
-const formReducer = (state={
-    firstName:'',
-    lastName:'',
-    password:'',
-    email:'',
-    dob: {
-        dd:'',
-        mm:'',
-        yy:''
-    },
-    gender:'',
-    address:{
-        line1:'',
-        state:'',
-        city:'',
-        pincode:'',
-    }
-  }, {type,value}) => {
+const form = (state=initialState, {type,value}) => {
     switch (type) {
       case "FIRST_NAME": {
         return {
@@ -100,4 +84,4 @@ const formReducer = (state={
     }
   };
   
-  export default formReducer;
+  export default form;

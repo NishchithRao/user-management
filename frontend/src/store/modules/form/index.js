@@ -1,8 +1,8 @@
-import formReducer from './reducers';
+import form from './reducers';
 import actions from './actions'
 
 const formModule = {
-    getReducers: () => formReducer,
+    getReducers: () => form,
     getActions: () => actions
 }
 export default formModule;

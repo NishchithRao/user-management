@@ -1,41 +1,28 @@
-import { addUser, deleteUser, getUser, udpateUser } from "../../../../helpers/methods";
-
-const userReducer = (state = {
-  users: [],
-  profile: {},
-  anotherUser: {},
-  isLoggedIn: false,
-  isLoading: false,
-  isSuccess: false,
-  error: ""
-}, action) => {
+import { addUser, deleteUser, getUser, removeCurrentUser, udpateUser } from "../../../../helpers/methods";
+import initialState from '../state';
+const user = (state = initialState, action) => {
   switch (action.type) {
-    case "ADD_USER": {
-      return {
-        ...state,
-        user: addUser(state, action.value),
-      };
-    }
-    case "UPDATE_USER": {
-      return {
-        ...state,
-        user: udpateUser(state, action.value)
-      }
-    }
     case "DELETE_USER": {
       return {
         ...state,
         users: deleteUser(state, action.value)
       }
     }
-    case "GET_USER": {
+    case "SET_ANOTHER_USER": {
+      console.log('yy');
       return {
         ...state,
-        anotherUser: getUser(state, 1)
+        anotherUser: action.value
       }
     }
+    case "ALL_USERS": {
+      return {
+        ...state,
+        users: removeCurrentUser(action.value)
+      }
+    }
+    
     case "PROFILE": {
-      console.log("profile");
       return {
         ...state,
         profile: action.value
@@ -48,7 +35,6 @@ const userReducer = (state = {
       }
     }
     case "SUCCESS": {
-      console.log('success');
       return {
         ...state,
         isSuccess: true,
@@ -57,7 +43,6 @@ const userReducer = (state = {
       }
     }
     case "ERROR": {
-      console.log('hello', action.value);
       return {
         ...state,
         error: action.value,
@@ -69,4 +54,4 @@ const userReducer = (state = {
   }
 };
 
-export default userReducer;
+export default user;
