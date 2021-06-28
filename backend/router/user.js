@@ -10,7 +10,7 @@ router.put("/picture/:id",isLoggedIn,updatePicture,updateUser);
 
 router.delete("/:id",isLoggedIn,isAdmin,deleteUser);
 
-router.get("/picture/:id",isLoggedIn,getPicture);
+router.get("/picture/:id",getPicture);
 
 router.get("/manager/:id/add/",isLoggedIn,isManagerOrAdmin,addUserToManager);
 
