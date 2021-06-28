@@ -13,7 +13,7 @@ app.use(cors());
 
 //Import Environment Variables
 const port = process.env.PORT || 3601;
-const url = process.env.URL;
+const url = process.env.URL || 'localhost';
 
 //Import User Routes
 const userRoutes = require('./router/user');
@@ -22,7 +22,9 @@ const authRoutes = require("./router/auth");
 //Server and Database Connections
 app.listen(port, () => console.log("App running on port ",port));
 
-mongoose.connect(url,{
+console.log(`mongodb://${url}/SonicBoltUsers`);
+
+mongoose.connect(`mongodb://${url}/SonicBoltUsers`,{
     useNewUrlParser:true,
     useFindAndModify: false,
     useCreateIndex: true,
