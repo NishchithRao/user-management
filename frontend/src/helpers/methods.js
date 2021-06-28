@@ -1,6 +1,5 @@
 import { verify } from "jsonwebtoken";
 import { secret, possibleErrors } from "./constants";
-import history from "../history";
 
 export const addUser = (state,user) => {
     let currentState = {...state};
@@ -8,12 +7,10 @@ export const addUser = (state,user) => {
     currentState.users.unshift(user);
     return currentState.users
 }
-
-export const udpateUser = (state,user) => {
-    let currentState = {...state};
-    let currentUserID = currentState.users.findIndex(existingUser => existingUser._id === user._id);
-    currentState.users[currentUserID] = user;
-    return currentState.users;
+export const removeCurrentUser = (state) => {
+    let {_id} = decodeToken();
+    let currentState = [...state];
+    return currentState.filter(user => user._id!==_id)||[];
 }
 
 export const deleteUser = (state,user) => {
@@ -23,14 +20,25 @@ export const deleteUser = (state,user) => {
     return currentState.users;
 }
 
-export const getUser = (state,id) => {
-    //TODO: fetch user
-    let currentState = {...state};
-    currentState.anotherUser = {name:'Nireekhsa'}
-    return currentState.anotherUser;
-}
 
 export const checkIfLoggedIn = () => {
+    let token = localStorage.getItem("token");
+    if(!token) {
+        return false;
+    }
+    try {
+        verify(token,secret);
+    } catch (error) {
+        return false;
+    }
+    return true;
+}
+
+export const setToken = token => {
+    localStorage.setItem('token',token);
+};
+
+export const decodeToken = () => {
     let token = localStorage.getItem("token");
     let check;
     if(!token) {
@@ -38,33 +46,29 @@ export const checkIfLoggedIn = () => {
     }
     try {
         check = verify(token,secret);
-        console.log(check);
     } catch (error) {
+        console.log(error);
         return false;
     }
-    return check;
+    return check || JSON.parse(check.data);
 }
 
-export const setToken = token => {
-    console.log(token);
-    localStorage.setItem('token',token);
-};
-
 export const processError = err => {
-    let apiError = err.message || err.code || err;
-    return possibleErrors.find(error => error.code == apiError)?.message || apiError;
+    let apiError = err.code || err.message || err;
+    return possibleErrors.find(error => error.code === apiError)?.message || apiError;
 };
-
-export const redirectTo = url => history.push(url);
 
 export const formValidation = data => {
-    let clear=false;
-    let validate = Object.keys(data).map(item => {
-        console.log(data[item].toString()==="");
-        if(data[item].toString()==="") {
-            return false;
-        }
-        return true;
-    });
-    return validate[validate.length-1];
+    let validate = Object.keys(data).find(item => data[item]==="") ? true:false;
+    return validate;
+}
+export const finalName = (firstName,lastName) => `${firstName} ${lastName}`;
+
+export const finalDOB = ({dd,mm,yy}) => `${dd} ${mm} ${yy}`;
+
+export const returnRole= role => role===0 ? 'regular' : (role===2 ? 'admin':'manager');
+
+export const logoutUser = () => {
+    localStorage.removeItem("token");
+    window.location.href="/login";
 }
