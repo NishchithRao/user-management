@@ -3,79 +3,112 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import TableHead from '@material-ui/core/TableHead';
+import Avatar from '@material-ui/core/Avatar';
 import TableCell from '@material-ui/core/TableCell';
+import { Link as RouterLink } from 'react-router-dom';
 import TableRow from '@material-ui/core/TableRow';
 import TableContainer from '@material-ui/core/TableContainer';
-import React, { useEffect, useState } from 'react'
-import { useSelector,useDispatch } from 'react-redux';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Button from '@material-ui/core/Button';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { actions } from '../store';
+import { baseUrl, userEndpoint } from '../helpers/constants';
+import { finalName, logoutUser } from '../helpers/methods';
+import Box from '@material-ui/core/Box';
+import Link from '@material-ui/core/Link';
 
 const Account = () => {
     const dispatch = useDispatch();
-    const user = useSelector(state => state.profile);
-    const loading = useSelector(state => state.isLoading);
-    const success = useSelector(state => state.isSuccess);
-    const {firstName,lastName,gender} = user;
+    const { profile, isLoading, isSuccess } = useSelector(state => state.user);
+    const { firstName, lastName, gender, email, address, role, profilePicture } = profile;
+    const { user } = actions;
+    const [open, setOpen] = useState(false);
     useEffect(() => {
-        dispatch({type:"GET_PROFILE"});
-    },[]);
-    console.log(user);
+        let timer = setTimeout(() => dispatch(user.GET_PROFILE()), 100);
+        return () => clearTimeout(timer);
+    }, [dispatch, user]);
     return (
-        (loading || !success || !user) ? <CircularProgress color="primary"/> : <Grid container
+        (isLoading || !isSuccess || !profile || !address) ? <LinearProgress className="my-3 w-50 mx-auto" color="primary" /> : <Grid container
             justify="center"
             alignItems="center">
             <Grid item
+                className="my-3"
                 xs={12}
                 sm={6}
             >
-                <Typography component="h1" variant="h4">Your Personal Info</Typography>
+                <Avatar className="profileImage d-block mx-auto s-5e" src={`${baseUrl}${userEndpoint}/picture/${profilePicture}`} alt={firstName + ' ' + lastName} />
+
+                <Typography component="h1" className="text-capitalize text-center my-3" variant="h4">{
+
+                    role > 0 ? 'Your Portfolio' : `Welcome, ${firstName} ${lastName}`}</Typography>
+                <Box display="flex" flexDirection="row" justifyContent="center" className="my-3 text-center">
+                    <Link component={RouterLink} to="/">
+                        <Button variant="contained" color="primary">Home</Button>
+                    </Link>
+                </Box>
                 <TableContainer component={Paper}>
                     <Table size="medium">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>
-                                    <Typography component="span" variant="h5">User</Typography>
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
                         <TableBody>
-                            <TableRow>
-                                <TableCell colSpan={1}>
+                            {role > 0 && <TableRow>
+                                <TableCell>
                                     <Typography component="span" variant="overline">name</Typography>
                                 </TableCell>
-                                <TableCell colSpan={8}>
-                                    <Typography component="span" variant="h6">{`${user.firstName} ${user.lastName}`}</Typography>
+                                <TableCell className="text-right">
+                                    <Typography component="span" className="text-capitalize" variant="h6">{finalName(firstName, lastName)}</Typography>
                                 </TableCell>
-                                <TableCell colSpan={8}>
-                                    <Typography component="span" variant="subtitle1">{'>'}</Typography>
-                                </TableCell>
-                            </TableRow>
+                            </TableRow>}
                             <TableRow>
-                                <TableCell colSpan={1}>
+                                <TableCell>
                                     <Typography component="span" variant="overline">birthday</Typography>
                                 </TableCell>
-                                <TableCell colSpan={8}>
+                                <TableCell className="text-right">
                                     <Typography component="span" variant="h6">11 June, 1999</Typography>
-                                </TableCell>
-                                <TableCell colSpan={8}>
-                                    <Typography component="span" variant="subtitle1">{'>'}</Typography>
                                 </TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell colSpan={1}>
+                                <TableCell>
                                     <Typography component="span" variant="overline">gender</Typography>
                                 </TableCell>
-                                <TableCell colSpan={8}>
+                                <TableCell className="text-right">
                                     <Typography component="span" variant="h6">{gender}</Typography>
-                                </TableCell>
-                                <TableCell colSpan={8}>
-                                    <Typography component="span" variant="subtitle1">{'>'}</Typography>
                                 </TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
                 </TableContainer>
+                <Typography component="span" className="d-block my-3" variant="h6">Contact Info</Typography>
+                <TableContainer component={Paper}>
+                    <Table size="medium">
+                        <TableBody>
+                            <TableRow>
+                                <TableCell>
+                                    <Typography component="span" variant="overline">email</Typography>
+                                </TableCell>
+                                <TableCell className="text-right">
+                                    <Typography component="span" variant="h6">{email}</Typography>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell >
+                                    <Typography component="span" variant="overline">address</Typography>
+                                </TableCell>
+                                <TableCell className="text-right">
+                                    <Typography className="text-capitalize d-block" component="span" variant="h6">{address.line1}</Typography>
+                                    <Typography className="text-capitalize d-block" component="span" variant="h6">{address.city}</Typography>
+                                    <Typography className="text-capitalize d-block" component="span" variant="h6">{address.state}</Typography>
+                                    <Typography className="text-capitalize d-block" component="span" variant="h6">Pincode - {address.pincode}</Typography>
+                                </TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <Box display="flex" justifyContent="space-between" flexDirection="row">
+                    <Button onClick={logoutUser} variant="contained" className="w-fit mx-auto my-3" color="primary">Log out</Button>
+                    <Button component={RouterLink} to={`/update/${profile._id}`} variant="contained" className="w-fit mx-auto my-3" color="primary">
+                        Update user
+                    </Button>
+                </Box>
             </Grid>
         </Grid>
     )
