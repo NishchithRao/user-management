@@ -7,3 +7,6 @@
 .border-all-light-1 {
     border: 1px solid #eee;
 }
+.border-all-error {
+    border: 1px solid #d9534f;
+}

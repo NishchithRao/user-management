@@ -7,6 +7,9 @@
 .h-100 {
     height: 100%;
 }
+.h-100vh {
+    height: 100vh !important;
+}
 .h-fit {
     height: fit-content;
 }
@@ -14,10 +17,10 @@
     height: 100vh !important;
 }
 .w-90 {
-    width: 90%;
+    width: 90% !important;
 }
 .w-50 {
-    width: 50%;
+    width: 50% !important;
 }
 .h-2r {
     height: 2rem;
@@ -26,8 +29,16 @@
     height: 4rem;
 }
 .h-3-2r {
-    height: 3.5rem;
+    height: 3.5rem !important;
 }
 .h-8r {
     height: 8rem;
+}
+.s-5e {
+    height: 5em !important;
+    width: 5em !important;
+}
+.s-8e {
+    height: 9em !important;
+    width: 9em !important;
 }
