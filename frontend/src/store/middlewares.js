@@ -1,13 +1,13 @@
+import { allowedActions } from "../helpers/constants";
 import { checkIfLoggedIn } from "../helpers/methods";
 
 export const isLoggedIn =
     (store) =>
         (next) =>
             (action) => {
-                let {type} = action;
-                if (!(type === "CREATE_USER" || type == "LOGIN_USER"
-                    || type === "ERROR" || type === "SUCCESS" || type === "START_LOADING")
-                ) {
+                console.log(action.type);
+                if (!(allowedActions.includes(action.type))) {
+                    console.log('yes');
                     if (!checkIfLoggedIn()) {
                         window.location.href="/login"
                         return;
@@ -19,6 +19,6 @@ export const isLoggedIn =
 
 export const logState = (store) => (next) => (action) => {
   next(action);
-  console.log(store.getState());
+  console.log("STATE UPDATE:",action.type);
   return;
 };
