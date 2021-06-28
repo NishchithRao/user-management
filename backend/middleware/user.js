@@ -1,4 +1,3 @@
-const { resolveCname } = require("dns");
 const formidable = require("formidable");
 const {createReadStream} = require("fs");
 const Grid = require("gridfs-stream");
@@ -30,6 +29,5 @@ exports.updatePicture = (req,res,next) => {
 exports.promoteRole = (req,res,next) => {
     let {role} = req.query;
     req.body = {role:parseInt(role)};
-    console.log(req.body);
     next();
 }
