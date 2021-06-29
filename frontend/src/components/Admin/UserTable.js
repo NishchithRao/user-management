@@ -122,7 +122,7 @@ const UserTable = ({handler}) => {
                 <TableCell align="center">
                   <Box className="mx-auto w-fit">
                   <Box flexDirection="row" display="flex" justifyItems="space-between">
-                    <Box className="mx-1" onClick={() => history.push(`/update/name/${_id}`)}><CreateIcon/></Box>
+                    <Box className="mx-1" onClick={() => history.push(`/update/${_id}`)}><CreateIcon/></Box>
                     {profile.role===2 && <Box className="mx-1" onClick={() => dispatch(user.DELETE_USER(_id))}><DeleteIcon/></Box>}
                   </Box>
                   </Box>
