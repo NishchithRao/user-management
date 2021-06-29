@@ -21,7 +21,7 @@ import Link from '@material-ui/core/Link';
 const Account = () => {
     const dispatch = useDispatch();
     const { profile, isLoading, isSuccess } = useSelector(state => state.user);
-    const { firstName, lastName, gender, email, address, role, profilePicture } = profile;
+    const { firstName, lastName, gender, email, address, role, profilePicture,dob:{dd,mm,yy} } = profile;
     const { user } = actions;
     const [open, setOpen] = useState(false);
     useEffect(() => {
@@ -43,9 +43,9 @@ const Account = () => {
 
                     role > 0 ? 'Your Portfolio' : `Welcome, ${firstName} ${lastName}`}</Typography>
                 <Box display="flex" flexDirection="row" justifyContent="center" className="my-3 text-center">
-                    <Link component={RouterLink} to="/">
+                   {role>0 && <Link component={RouterLink} to="/">
                         <Button variant="contained" color="primary">Home</Button>
-                    </Link>
+                    </Link>}
                 </Box>
                 <TableContainer component={Paper}>
                     <Table size="medium">
@@ -63,7 +63,7 @@ const Account = () => {
                                     <Typography component="span" variant="overline">birthday</Typography>
                                 </TableCell>
                                 <TableCell className="text-right">
-                                    <Typography component="span" variant="h6">11 June, 1999</Typography>
+                                    <Typography component="span" variant="h6">{`${dd} ${mm} ${yy}`}</Typography>
                                 </TableCell>
                             </TableRow>
                             <TableRow>
