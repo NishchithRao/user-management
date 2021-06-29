@@ -2,7 +2,7 @@ const { verify } = require("jsonwebtoken");
 
 exports.isLoggedIn = (req, res, next) => {
   let header = req.header("authorization");
-  console.log('hello');
+  // console.log('hello');
   if (!header) {
     return res.json({
       error: {
