@@ -29,6 +29,7 @@ const Picture = ({history}) => {
         let formData = new FormData();
         formData.set("picture",imgUrl);
         dispatch(user.SET_PICTURE({formData,id}));
+        setTimeout(()=> history.push("/"),2000);
     }
     console.log(imgUrl,isLoading);
     return (
