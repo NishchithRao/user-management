@@ -18,7 +18,8 @@ const Signup = ({ history }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(user.SET_ANOTHER_USER({}));
-    dispatch(user.SUCCESS(false))},[]);
+    dispatch(user.SUCCESS(false));
+  },[]);
   useEffect(() => {
     anotherUser._id &&  history.push(`/create/picture/${anotherUser._id}`);
   }, [anotherUser]);
